@@ -1,22 +1,23 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const app = express();
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const todoSequelize = require("./util/db");
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3003;
 const { reqLogger } = require("./util/middleware");
-const todosRouter = require("./routes/todos");
-const usersRouter = require("./routes/users"); 
-const authRouter = require("./routes/auth");
+const playlistsRouter = require("./routes/playlists");
+const usersRouter = require("./routes/users");
+const loginRouter = require("./routes/login");
 require("./models"); // make sure to require it
 
 // middleware
 app.use(express.json());
-app.use(reqLogger);
-app.use("/api/todos", todosRouter);
-app.use("/api/auth", authRouter);
-app.use("/api/users", usersRouter);
 app.use(cookieParser());
+app.use(reqLogger);
+
+app.use("/api/playlists", playlistsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 const start = async () => {
   try {
