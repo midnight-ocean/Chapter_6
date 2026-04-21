@@ -11,5 +11,15 @@ const logout = async () => {
     return res.data;
 };
 
-export default { login, logout };
+
+router.post("/me", authenticateToken, (req, res) => {
+    res.json({ username: req.user.username, id: req.user.id });
+});
+
+const refreshUser = async () => {
+    const userResponse = await axios.get("/api/auth/me", { withCredentials: true });
+    return userResponse.data;
+};
+
+export default { login, logout, refreshUser };
 
